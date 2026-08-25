@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2020",
+    "strict": true,
+    "strictNullChecks": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "outDir": ".test-out",
+    "rootDir": ".",
+    "sourceMap": false
+  },
+  "include": ["./src/Bag/**/*.ts", "./test/**/*.ts"]
+}

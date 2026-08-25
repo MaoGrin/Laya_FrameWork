@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "背包系统分层设计",
+    "subtitle": "配置定义 / 物品栈 / 容器 / 业务逻辑 / UI 五层职责与数据流",
+    "output": "bag-system.html",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "main-path",
+        "label": "主操作链路",
+        "focus": ["view", "controller", "service", "container", "slot", "itemstack"],
+        "note": "一次添加/移动物品，从 UI 操作一直落到物品栈状态的完整链路。"
+      },
+      {
+        "id": "event-loop",
+        "label": "事件刷新回路",
+        "focus": ["service", "eventbus", "view"],
+        "note": "数据变更通过事件总线通知 UI，而不是 UI 每帧轮询。"
+      },
+      {
+        "id": "config-save",
+        "label": "配置与存档",
+        "focus": ["configprovider", "itemconfig", "service", "container", "save"],
+        "note": "静态配置与运行时存档两条旁路，与主操作链路解耦。"
+      }
+    ]
+  },
+  "components": [
+    { "id": "view", "type": "frontend", "label": "BagView 背包UI", "sublabel": "渲染格子 / 图标 / 数量", "tag": "View 层", "pos": [430, 60], "size": [210, 74] },
+    { "id": "controller", "type": "frontend", "label": "BagController 控制器", "sublabel": "点击 / 拖拽 / 分堆 / 悬停", "tag": "Controller 层", "pos": [430, 200], "size": [210, 74] },
+    { "id": "service", "type": "backend", "label": "BagService 业务逻辑", "sublabel": "add / remove / move / swap / merge / split", "tag": "Service 层", "pos": [430, 360], "size": [210, 78] },
+    { "id": "container", "type": "backend", "label": "Container 容器", "sublabel": "格子集合 + 容量 + 归属", "tag": "Model 层", "pos": [430, 540], "size": [210, 74] },
+    { "id": "slot", "type": "backend", "label": "Slot 格子", "sublabel": "存放一个物品栈", "tag": "Model 层", "pos": [430, 700], "size": [210, 74] },
+    { "id": "itemstack", "type": "backend", "label": "ItemStack 物品栈", "sublabel": "itemId+count 或 uuid+attrs", "tag": "Model 层", "pos": [430, 860], "size": [210, 74] },
+    { "id": "eventbus", "type": "messagebus", "label": "EventBus 事件总线", "sublabel": "背包变更通知", "tag": "基础设施", "pos": [770, 200], "size": [190, 74] },
+    { "id": "configprovider", "type": "database", "label": "ConfigProvider 配置接口", "sublabel": "从表 / JSON 全量加载", "tag": "Config 层", "pos": [110, 540], "size": [210, 74] },
+    { "id": "itemconfig", "type": "database", "label": "ItemConfig 静态定义", "sublabel": "id / name / icon / stackable / maxStack", "tag": "Config 层", "pos": [110, 700], "size": [210, 74] },
+    { "id": "save", "type": "database", "label": "存档 / 持久化", "sublabel": "toJSON / fromJSON", "tag": "基础设施", "pos": [770, 540], "size": [190, 74] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "View 层", "wraps": ["view"], "pad": 16 },
+    { "kind": "region", "label": "Controller 层", "wraps": ["controller"], "pad": 16 },
+    { "kind": "region", "label": "Service 层", "wraps": ["service"], "pad": 16 },
+    { "kind": "region", "label": "Model 层", "wraps": ["container", "slot", "itemstack"], "pad": 16 },
+    { "kind": "region", "label": "Config 层", "wraps": ["configprovider", "itemconfig"], "pad": 16 }
+  ],
+  "connections": [
+    { "id": "view-controller", "from": "view", "to": "controller", "label": "用户操作", "variant": "emphasis", "labelDy": 24 },
+    { "id": "controller-service", "from": "controller", "to": "service", "label": "调用操作", "variant": "emphasis", "labelDy": 24 },
+    { "id": "service-container", "from": "service", "to": "container", "label": "操作格子", "variant": "emphasis", "labelDy": 24 },
+    { "id": "container-slot", "from": "container", "to": "slot", "label": "包含", "variant": "emphasis", "labelDy": 24 },
+    { "id": "slot-itemstack", "from": "slot", "to": "itemstack", "label": "存放", "variant": "emphasis", "labelDy": 24 },
+    { "id": "config-load", "from": "configprovider", "to": "itemconfig", "label": "加载定义", "variant": "dashed", "labelDy": 24 },
+    { "id": "service-query-config", "from": "service", "to": "itemconfig", "label": "查询定义", "variant": "dashed" },
+    { "id": "service-event", "from": "service", "to": "eventbus", "label": "派发事件", "variant": "dashed" },
+    { "id": "event-view", "from": "eventbus", "to": "view", "label": "订阅刷新", "variant": "dashed" },
+    { "id": "container-save", "from": "container", "to": "save", "label": "序列化", "variant": "dashed" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "分层职责", "items": ["View 只渲染，Controller 只转发交互，Service 只放规则", "每层只依赖下一层，改动互不牵连"] },
+    { "dot": "emerald", "title": "配置与状态分离", "items": ["ItemConfig 静态定义全量加载一次、全表复用", "ItemStack 只存运行时状态，堆叠/数量变化不碰配置"] },
+    { "dot": "violet", "title": "数据与 UI 解耦", "items": ["Service 变更后发事件，UI 订阅刷新而非每帧轮询", "同一份背包可被多个 UI 同时显示"] },
+    { "dot": "amber", "title": "可扩展", "items": ["Container 抽象让背包 / 仓库 / 装备栏都是容器实例", "ConfigProvider 接口可替换表 / JSON / Proto 数据源"] }
+  ]
+}
