@@ -1,0 +1,48 @@
+{
+  "_$ver": 1,
+  "_$id": "dc5xy65q",
+  "_$type": "GWidget",
+  "name": "BagList",
+  "x": 466,
+  "y": 130,
+  "width": 400,
+  "height": 401,
+  "_$comp": [
+    {
+      "_$type": "23215615-34e4-4442-874d-59e5598cf3f9",
+      "scriptPath": "../src/Bag/View/BagList.ts",
+      "list": {
+        "_$ref": "uhmoyvf8"
+      }
+    }
+  ],
+  "_$child": [
+    {
+      "_$id": "uhmoyvf8",
+      "_$type": "GList",
+      "name": "itemList",
+      "x": -2,
+      "width": 400,
+      "height": 400,
+      "layout": {
+        "type": 3
+      },
+      "_templateNode": {
+        "_$ref": "rfd6gx8o",
+        "_$tmpl": "itemTemplate"
+      },
+      "_initItemNum": null,
+      "_$child": [
+        {
+          "_$id": "rfd6gx8o",
+          "_$prefab": "142cf089-2cdd-4e8c-b5a5-4d3fc2455473",
+          "name": "BagItem",
+          "active": true,
+          "x": 0,
+          "y": 0,
+          "visible": true
+        }
+      ]
+    }
+  ]
+}

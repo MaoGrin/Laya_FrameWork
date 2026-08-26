@@ -1,0 +1,92 @@
+{
+  "_$ver": 1,
+  "_$id": "nng4jsyw",
+  "_$type": "GPanel",
+  "name": "BagPanel",
+  "x": 329,
+  "y": 55,
+  "width": 600,
+  "height": 600,
+  "_$comp": [
+    {
+      "_$type": "870fe5e6-1894-470e-b624-9278d7b72977",
+      "scriptPath": "../src/Bag/View/BagPanel.ts",
+      "bagList": {
+        "_$ref": "76w0sog3",
+        "_$type": "23215615-34e4-4442-874d-59e5598cf3f9"
+      },
+      "btnRandom": {
+        "_$ref": "l582noja"
+      }
+    },
+    {
+      "_$type": "23215615-34e4-4442-874d-59e5598cf3f9",
+      "scriptPath": "../src/Bag/View/BagList.ts",
+      "list": {
+        "_$ref": [
+          "76w0sog3",
+          "uhmoyvf8"
+        ]
+      }
+    }
+  ],
+  "_$child": [
+    {
+      "_$id": "l582noja",
+      "_$type": "GButton",
+      "name": "btnRandom",
+      "x": 7,
+      "y": 246,
+      "width": 100,
+      "height": 40,
+      "controllers": {
+        "_$type": "Record",
+        "button": {
+          "_$type": "Controller",
+          "pages": [
+            "up",
+            "down",
+            "over",
+            "selectedOver"
+          ]
+        }
+      },
+      "icon": "res://32e8dd95-433b-4fc0-8815-2ddaa5d30358",
+      "selectedIcon": "res://8d7b8c2d-59d5-434d-b85b-a7fe9e231705",
+      "_$child": [
+        {
+          "_$id": "z6tcr1ho",
+          "_$type": "GImage",
+          "name": "img",
+          "width": 100,
+          "height": 40,
+          "src": "res://32e8dd95-433b-4fc0-8815-2ddaa5d30358",
+          "autoSize": false
+        },
+        {
+          "_$id": "o0xtv2l5",
+          "_$type": "GTextField",
+          "name": "txt",
+          "x": 2,
+          "y": 3,
+          "width": 97,
+          "height": 34,
+          "text": "随机添加",
+          "fontSize": 16,
+          "color": "#ffffff",
+          "align": "center",
+          "valign": "middle"
+        }
+      ]
+    },
+    {
+      "_$id": "76w0sog3",
+      "_$prefab": "e2a655d4-4ec4-4347-9a9b-1900892384cc",
+      "name": "BagList",
+      "active": true,
+      "x": 128,
+      "y": 89,
+      "visible": true
+    }
+  ]
+}

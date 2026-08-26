@@ -1,0 +1,28 @@
+{
+  "_$ver": 1,
+  "_$id": "hre0js1n",
+  "_$type": "GWidget",
+  "name": "BagItem",
+  "x": 241,
+  "y": 235,
+  "width": 100,
+  "height": 100,
+  "_$comp": [
+    {
+      "_$type": "d654da81-9de7-436b-a4bc-28c07dc8ede1",
+      "scriptPath": "../src/Bag/View/BagItem.ts",
+      "text": ""
+    }
+  ],
+  "_$child": [
+    {
+      "_$id": "mllzbta1",
+      "_$type": "GTextField",
+      "name": "txtName",
+      "width": 120,
+      "height": 28,
+      "text": "text",
+      "fontSize": 20
+    }
+  ]
+}
