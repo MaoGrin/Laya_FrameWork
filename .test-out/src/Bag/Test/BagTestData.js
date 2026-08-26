@@ -49,6 +49,12 @@ class BagTestData {
     getItemCfg(id) {
         return this._items.get(id) ?? null;
     }
+    getRandomItemCfg() {
+        let len = this._items.size;
+        let index = Math.floor(Math.random() * len);
+        let list = Array.from(this._items.values());
+        return list[index] || null;
+    }
     getContainerCfg(id) {
         return this._containers.get(id) ?? null;
     }

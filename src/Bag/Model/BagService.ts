@@ -56,7 +56,11 @@ export class BagService {
      */
     addItem(container: Container, item: ItemStack): AddResult {
         const cfg = Config.getItemCfg(item.itemId);
-        if (!cfg) return { success: false, added: 0, remain: item.count };
+        if (!cfg) {
+            // 配置源没注入时这里会静默失败，加个告警让问题可见
+            console.warn(`[BagService] addItem 失败：找不到物品配置 itemId=${item.itemId}。请先 BagTestData.install() 或 Config.setProvider(...)`);
+            return { success: false, added: 0, remain: item.count };
+        }
         // 容器级类型过滤（装备栏只收装备等）
         if (!container.canAccept(cfg.kind)) return { success: false, added: 0, remain: item.count };
 

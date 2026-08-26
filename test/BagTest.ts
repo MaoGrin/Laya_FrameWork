@@ -5,6 +5,7 @@ import { Container } from "../src/Bag/Model/Container";
 import { ItemStack } from "../src/Bag/Model/ItemStack";
 import { BagService, BagOp } from "../src/Bag/Model/BagService";
 import { ContainerRegistry } from "../src/Bag/Model/ContainerRegistry";
+import { IdGenerator } from "../src/Common/IdGenerator";
 
 // ==================== 初始化 ====================
 BagTestData.install();          // 注入测试配置（物品 + 容器）
@@ -173,6 +174,23 @@ test("容器注册与按归属查找", () => {
     reg.register(bag);
     assertTrue(reg.get(14) === bag, "按uid应能找到");
     assertTrue(reg.getByOwner(1000).length >= 1, "按ownerId应能找到");
+});
+
+test("IdGenerator 自增且不重复", () => {
+    IdGenerator.instance.resetTo(1);
+    const a = IdGenerator.instance.next();
+    const b = IdGenerator.instance.next();
+    const c = IdGenerator.instance.next();
+    assertEq(a, 1);
+    assertEq(b, 2);
+    assertEq(c, 3);
+    assertTrue(a !== b && b !== c, "id 不应重复");
+});
+
+test("IdGenerator resetTo 恢复", () => {
+    IdGenerator.instance.resetTo(100);
+    assertEq(IdGenerator.instance.next(), 100);
+    assertEq(IdGenerator.instance.current, 101);
 });
 
 // ==================== 输出汇总 ====================

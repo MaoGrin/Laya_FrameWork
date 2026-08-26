@@ -7,6 +7,7 @@ const Container_1 = require("../src/Bag/Model/Container");
 const ItemStack_1 = require("../src/Bag/Model/ItemStack");
 const BagService_1 = require("../src/Bag/Model/BagService");
 const ContainerRegistry_1 = require("../src/Bag/Model/ContainerRegistry");
+const IdGenerator_1 = require("../src/Common/IdGenerator");
 // ==================== 初始化 ====================
 BagTestData_1.BagTestData.install(); // 注入测试配置（物品 + 容器）
 const svc = BagService_1.BagService.instance;
@@ -154,6 +155,21 @@ function makeBag(uid = 1, capacity = 20) {
     reg.register(bag);
     (0, harness_1.assertTrue)(reg.get(14) === bag, "按uid应能找到");
     (0, harness_1.assertTrue)(reg.getByOwner(1000).length >= 1, "按ownerId应能找到");
+});
+(0, harness_1.test)("IdGenerator 自增且不重复", () => {
+    IdGenerator_1.IdGenerator.instance.resetTo(1);
+    const a = IdGenerator_1.IdGenerator.instance.next();
+    const b = IdGenerator_1.IdGenerator.instance.next();
+    const c = IdGenerator_1.IdGenerator.instance.next();
+    (0, harness_1.assertEq)(a, 1);
+    (0, harness_1.assertEq)(b, 2);
+    (0, harness_1.assertEq)(c, 3);
+    (0, harness_1.assertTrue)(a !== b && b !== c, "id 不应重复");
+});
+(0, harness_1.test)("IdGenerator resetTo 恢复", () => {
+    IdGenerator_1.IdGenerator.instance.resetTo(100);
+    (0, harness_1.assertEq)(IdGenerator_1.IdGenerator.instance.next(), 100);
+    (0, harness_1.assertEq)(IdGenerator_1.IdGenerator.instance.current, 101);
 });
 // ==================== 输出汇总 ====================
 (0, harness_1.summary)("背包系统测试");

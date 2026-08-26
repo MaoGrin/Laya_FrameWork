@@ -57,6 +57,13 @@ export class BagTestData implements IConfigProvider {
         return this._items.get(id) ?? null;
     }
 
+    getRandomItemCfg(): IItemConfig | null {
+        let len = this._items.size;
+        let index = Math.floor(Math.random() * len);
+        let list = Array.from(this._items.values());
+        return list[index] || null;
+    }
+
     getContainerCfg(id: number): IContainerConfig | null {
         return this._containers.get(id) ?? null;
     }

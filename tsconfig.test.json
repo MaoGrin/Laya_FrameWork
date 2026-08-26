@@ -10,5 +10,11 @@
     "rootDir": ".",
     "sourceMap": false
   },
-  "include": ["./src/Bag/**/*.ts", "./test/**/*.ts"]
+  "include": [
+    "./src/Bag/Model/**/*.ts",
+    "./src/Bag/Interface/**/*.ts",
+    "./src/Bag/Test/**/*.ts",
+    "./src/Common/**/*.ts",
+    "./test/**/*.ts"
+  ]
 }
